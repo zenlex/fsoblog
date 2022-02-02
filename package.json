@@ -7,6 +7,14 @@
     "nodemon": "^2.0.15"
   },
   "scripts": {
-    "dev": "nodemon index.js:watch"
+    "start": "node index.js",
+    "dev": "nodemon index.js:watch",
+    "test": "jest --verbose"
+  },
+  "devDependencies": {
+    "jest": "^27.4.7"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }
