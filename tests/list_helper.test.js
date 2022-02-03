@@ -79,3 +79,10 @@ describe('total likes', () => {
     expect(result).toBe(36);
   });
 });
+
+describe('favorite blog', () => {
+  test('returns first blog with max likes', () => {
+    const result = listHelper.favoriteBlog(testBlogs);
+    expect(result).toEqual(testBlogs[2]);
+  });
+});
