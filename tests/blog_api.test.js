@@ -68,6 +68,20 @@ describe('route testing', () => {
       expect(titles).toContain(testBlog.title);
     });
   });
+  describe('default values', () => {
+    test('likes set to 0 if not initialized', async () => {
+      const testBlog = {
+        title: 'blog for testing no likes',
+        author: 'foo bar baz',
+      };
+      const response = await api
+        .post('/api/blogs')
+        .send(testBlog);
+
+      const addedBlog = response.body;
+      expect(addedBlog.likes).toEqual(0);
+    });
+  });
 });
 afterAll(() => {
   mongoose.connection.close();
