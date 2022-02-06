@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 const mongoose = require('mongoose');
 const supertest = require('supertest');
 const app = require('../app');
@@ -31,12 +32,13 @@ describe('route testing', () => {
   });
 
   describe('id property', () => {
-    test('is named "id" and __v deleted', async () => {
+    test('is named "id" not "_id" and __v deleted', async () => {
       const response = await api
         .get('/api/blogs');
 
       const blogToCheck = response.body[0];
       expect(blogToCheck.id).toBeDefined();
+      expect(blogToCheck._id).not.toBeDefined();
       expect(blogToCheck.__v).not.toBeDefined();
     });
   });
