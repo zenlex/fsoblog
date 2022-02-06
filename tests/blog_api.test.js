@@ -42,8 +42,33 @@ describe('route testing', () => {
       expect(blogToCheck.__v).not.toBeDefined();
     });
   });
-});
 
+  describe('post new blog', () => {
+    test('new blog added with correct content', async () => {
+      const blogsAtStart = await api
+        .get('/api/blogs');
+
+      const testBlog = {
+        title: 'Added Blog for Testing',
+        author: 'foo bar baz',
+        url: 'http://zenlex.dev',
+      };
+
+      await api
+        .post('/api/blogs')
+        .send(testBlog)
+        .expect(201);
+
+      const blogsAtEnd = await api
+        .get('/api/blogs');
+      console.log(blogsAtEnd.body.length, blogsAtStart.body.length);
+      expect(blogsAtEnd.body).toHaveLength(blogsAtStart.body.length + 1);
+
+      const titles = blogsAtEnd.body.map((blog) => blog.title);
+      expect(titles).toContain(testBlog.title);
+    });
+  });
+});
 afterAll(() => {
   mongoose.connection.close();
 });
