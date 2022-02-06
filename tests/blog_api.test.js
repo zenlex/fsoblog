@@ -31,12 +31,13 @@ describe('route testing', () => {
   });
 
   describe('id property', () => {
-    test('is named "id"', async () => {
+    test('is named "id" and __v deleted', async () => {
       const response = await api
         .get('/api/blogs');
 
       const blogToCheck = response.body[0];
       expect(blogToCheck.id).toBeDefined();
+      expect(blogToCheck.__v).not.toBeDefined();
     });
   });
 });
