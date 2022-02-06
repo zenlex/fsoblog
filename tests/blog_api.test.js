@@ -82,6 +82,19 @@ describe('route testing', () => {
       expect(addedBlog.likes).toEqual(0);
     });
   });
+
+  describe('required values', () => {
+    test('missing required values ', async () => {
+      const testBlog = {
+        likes: 9000,
+      };
+
+      await api
+        .post('/api/blogs')
+        .send(testBlog)
+        .expect(400);
+    });
+  });
 });
 afterAll(() => {
   mongoose.connection.close();
