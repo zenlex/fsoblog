@@ -21,11 +21,22 @@ describe('route testing', () => {
 
       expect(response.body).toHaveLength(testblogs.length);
     });
+
     test('returns JSON', async () => {
       await api
         .get('/api/blogs')
         .expect(200)
         .expect('Content-Type', /application\/json/);
+    });
+  });
+
+  describe('id property', () => {
+    test('is named "id"', async () => {
+      const response = await api
+        .get('/api/blogs');
+
+      const blogToCheck = response.body[0];
+      expect(blogToCheck.id).toBeDefined();
     });
   });
 });
