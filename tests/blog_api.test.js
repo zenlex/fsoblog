@@ -95,6 +95,24 @@ describe('required values', () => {
   });
 });
 
+describe('delete blog', () => {
+  test('successful with valid id', async () => {
+    const blogToDelete = new Blog({
+      title: 'blog to be deleted',
+      author: 'foo bar baz',
+    });
+    const savedBlog = await blogToDelete.save();
+
+    const blogsAfterAdd = await helper.blogsInDb();
+    await api
+      .delete(`/api/blogs/${savedBlog.id}`)
+      .expect(200);
+
+    const blogsAfterDelete = await helper.blogsInDb();
+
+    expect(blogsAfterDelete).toHaveLength(blogsAfterAdd.length - 1);
+  });
+});
 afterAll(() => {
   mongoose.connection.close();
 });
