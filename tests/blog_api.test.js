@@ -113,6 +113,33 @@ describe('delete blog', () => {
     expect(blogsAfterDelete).toHaveLength(blogsAfterAdd.length - 1);
   });
 });
+
+describe('update blog', () => {
+  test('successful with valid id', async () => {
+    const blogToUpdate = new Blog({
+      title: 'blog to be updated',
+      author: 'foo bar baz',
+    });
+    const savedBlog = await blogToUpdate.save();
+
+    const updates = {
+      title: 'updated title',
+      likes: 9000,
+    };
+
+    await api
+      .put(`/api/blogs/${savedBlog.id}`)
+      .send(updates)
+      .expect(200);
+
+    const blogsAfterUpdate = await helper
+      .blogsInDb();
+    const updatedBlog = blogsAfterUpdate.filter((blog) => blog.id === savedBlog.id)[0];
+
+    expect(updatedBlog.title).toBe(updates.title);
+    expect(updatedBlog.likes).toBe(updates.likes);
+  });
+});
 afterAll(() => {
   mongoose.connection.close();
 });
