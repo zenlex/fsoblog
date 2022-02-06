@@ -12,6 +12,7 @@ module.exports = {
     "ecmaVersion": 13
   },
   "rules": {
-    "indent": ["error", 2]
+    "indent": ["error", 2],
+    "no-console":0,
   }
 };
