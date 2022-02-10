@@ -1,5 +1,7 @@
+/* eslint-disable no-underscore-dangle */
 const blogsRouter = require('express').Router();
 
+const User = require('../models/user');
 const Blog = require('../models/blog');
 
 blogsRouter.get('/', async (req, res) => {
@@ -8,10 +10,21 @@ blogsRouter.get('/', async (req, res) => {
 });
 
 blogsRouter.post('/', async (req, res) => {
-  const blog = new Blog(req.body);
+  const { body } = req;
 
-  const result = await blog.save();
-  res.status(201).json(result);
+  const user = await User.findById(body.userId);
+
+  const blog = new Blog({
+    title: body.title,
+    author: user.name,
+    user: user._id,
+  });
+
+  const savedBlog = await blog.save();
+  user.blogs = user.blogs.concat(savedBlog._id);
+  await user.save();
+
+  res.status(201).json(savedBlog);
 });
 
 blogsRouter.delete('/:id', async (req, res) => {

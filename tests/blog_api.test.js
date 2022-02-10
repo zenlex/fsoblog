@@ -140,6 +140,7 @@ describe('update blog', () => {
     expect(updatedBlog.likes).toBe(updates.likes);
   });
 });
+
 afterAll(() => {
   mongoose.connection.close();
 });
