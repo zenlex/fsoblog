@@ -3,6 +3,8 @@ POST http://localhost:3003/api/blogs
 content-type: application/json
 
 {
-  "title":"Foo Bar goes to Baz",
-  "author":"VSC Rest Client"
+  "title":"Foo Bar goes to Baz part 5",
+  "author":"Fred jones",
+  "userId":"6206bfca96f61c7e5db7345f",
+  "url": "blogspot.io/foobarblogs"
 }

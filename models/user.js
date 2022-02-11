@@ -4,11 +4,17 @@ const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 
 const userSchema = new mongoose.Schema({
+  blogs: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Blog',
+    },
+  ],
   username: {
     type: String,
     unique: true,
     minlength: 3,
-    required: true
+    required: true,
   },
   name: {
     type: String,
@@ -18,12 +24,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     unique: true,
   },
-  blogs: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Blog',
-    },
-  ],
 });
 
 userSchema.plugin(uniqueValidator);
