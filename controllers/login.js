@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 const loginRouter = require('express').Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
@@ -9,27 +10,28 @@ loginRouter.get('/', async (req, res) => {
 });
 
 loginRouter.post('/', async (req, res) => {
-  const user = new User({
-    username: req.body.username,
-    name: req.body.name,
-    password: req.body.password,
-  });
+  const { username, password } = req.body;
 
-  const result = await user.save();
-  res.status(201).json(result);
+  const user = await User.findOne({ username });
+
+  const passwordCorrect = user === null
+    ? false
+    : await bcrypt.compare(password, user.passwordHash);
+
+  if (!(user && passwordCorrect)) {
+    return res.status(401).json({
+      error: 'invalid username or password',
+    });
+  }
+
+  const userForToken = {
+    username: user.username,
+    id: user._id,
+  };
+
+  const token = jwt.sign(userForToken, process.env.SECRET);
+
+  return res.status(200).send({ token, username: user.username, name: user.name });
 });
-
-// loginRouter.delete('/:id', async (req, res) => {
-//   const result = await User.findByIdAndDelete(req.params.id);
-//   res.status(200).json(result);
-// });
-
-// loginRouter.put('/:id', async (req, res) => {
-//   const result = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
-//   if (result) {
-//     return res.status(200).json(result);
-//   }
-//   return res.status(404).end();
-// });
 
 module.exports = loginRouter;
