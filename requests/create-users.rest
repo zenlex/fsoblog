@@ -6,3 +6,26 @@
   "name": "Fred Jones",
   "password": "waswornout"
 }
+  
+### 
+  # username too short
+  POST http://localhost:3003/api/users
+  Content-Type: application/json
+
+{
+  "username": "fo",
+  "name": "foobar baz",
+  "password": "password"
+}
+
+### 
+#  password too short
+  POST http://localhost:3003/api/users
+  Content-Type: application/json
+
+{
+  "username": "foobar",
+  "name": "foobar baz",
+  "password": "pw"
+}
+

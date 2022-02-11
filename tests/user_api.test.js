@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt');
 const app = require('../app');
 const helper = require('./test_helper');
 const User = require('../models/user');
-const testblogs = require('./testblogs');
 
 const api = supertest(app);
 
@@ -56,4 +55,41 @@ describe('when there is initially one user in db', () => {
     const usersAtEnd = await helper.usersInDb();
     expect(usersAtEnd).toHaveLength(usersAtStart.length);
   });
+
+  test('creation fails with username length < 3', async () => {
+    const usersAtStart = await helper.usersInDb();
+
+    const user = { username: 'fo', name: 'foo bar', password: 'password' };
+
+    const result = await api
+      .post('/api/users')
+      .send(user)
+      .expect(400)
+      .expect('Content-Type', /application\/json/);
+
+    expect(result.body.error).toContain('user validation failed');
+
+    const usersAtEnd = await helper.usersInDb();
+    expect(usersAtEnd).toHaveLength(usersAtStart.length);
+  });
+
+  test('creation fails with password length < 3', async () => {
+    const usersAtStart = await helper.usersInDb();
+
+    const user = { username: 'foobar', name: 'foo bar', password: 'pw' };
+
+    const result = await api
+      .post('/api/users')
+      .send(user)
+      .expect(400)
+      .expect('Content-Type', /application\/json/);
+
+    expect(result.body.error).toContain('password must be at least 3 characters');
+
+    const usersAtEnd = await helper.usersInDb();
+    expect(usersAtEnd).toHaveLength(usersAtStart.length);
+  });
+});
+afterAll(() => {
+  mongoose.connection.close();
 });
