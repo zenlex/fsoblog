@@ -128,7 +128,7 @@ describe('delete blog', () => {
     const saveResponse = await api
       .post('/api/blogs/')
       .set('Authorization', `bearer ${token}`)
-      .send(blogToDelete)
+      .send(blogToDelete);
 
     const blogsAfterAdd = await helper.blogsInDb();
     const url = `/api/blogs/${saveResponse.body.id}`;
@@ -153,7 +153,7 @@ describe('update blog', () => {
     const saveResponse = await api
       .post('/api/blogs/')
       .set('Authorization', `bearer ${token}`)
-      .send(blogToUpdate)
+      .send(blogToUpdate);
 
     const updates = {
       title: 'updated title',
