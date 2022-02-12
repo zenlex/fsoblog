@@ -1,7 +1,0 @@
-PUT http://localhost:3003/api/blogs/6206f6c5f1229e36516b9e20
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZyZWRqIiwiaWQiOiI2MjA2YmZjYTk2ZjYxYzdlNWRiNzM0NWYiLCJpYXQiOjE2NDQ2MjMzNjl9.MLM3ST5l8SYfua_8gi-WnnF7nK4ylE8lVeLAH4wGryI
-Content-Type: application/json
-
-{
-  "title":"the reboot 2 - post updated again"
-}
