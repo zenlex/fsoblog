@@ -3,7 +3,7 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import LoginForm from './components/LoginForm'
 import loginService from './services/login'
-
+import BlogForm from './components/BlogForm'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -17,6 +17,14 @@ const App = () => {
     setBlogs(blogs)
   }), [user])
 
+  useEffect(() => {
+    const loggedUser = window.localStorage.getItem('blogAppUser')
+    if (loggedUser) {
+      const parsedUser = JSON.parse(loggedUser)
+      setUser(parsedUser)
+      blogService.setToken(parsedUser.token)
+    }
+  }, [])
   const handleLogin = async (e) => {
     e.preventDefault()
     try {
@@ -43,6 +51,21 @@ const App = () => {
 
   const handlePasswordChange = ({ target }) => setPassword(target.value);
 
+  const addBlog = async (e) => {
+    e.preventDefault()
+    const { title, author, url } = e.target;
+    const newBlog = {
+      title: title.value,
+      author: author.value,
+      url: url.value,
+    }
+    const addedBlog = await blogService.createBlog(newBlog);
+    setBlogs(blogs.concat(addedBlog))
+    title.value = ''
+    author.value = ''
+    url.value = ''
+  }
+
   if (!user) {
     return (
       <div>
@@ -64,6 +87,7 @@ const App = () => {
         {blogs.map(blog =>
           <Blog key={blog.id} blog={blog} />
         )}
+        <BlogForm addBlog={addBlog} />
       </div>
     )
   }
