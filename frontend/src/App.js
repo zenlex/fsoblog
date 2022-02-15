@@ -4,13 +4,14 @@ import blogService from './services/blogs'
 import LoginForm from './components/LoginForm'
 import loginService from './services/login'
 import BlogForm from './components/BlogForm'
+import Notification from './components/Notification'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null);
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [notification, setNotification] = useState(null)
 
   useEffect(() => (async () => {
     const blogs = await blogService.getAll()
@@ -34,16 +35,22 @@ const App = () => {
       window.localStorage.setItem('blogAppUser', JSON.stringify(user))
       setUsername('')
       setPassword('')
-    } catch (err) {
-      setErrorMessage('Wrong credentials')
+      setNotification('login successful')
       setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+        setNotification(null)
+      }, 3000)
+    } catch (err) {
+      setNotification('Wrong credentials')
+      setTimeout(() => {
+        setNotification(null)
+      }, 3000)
     }
   }
 
   const handleLogout = (e) => {
     window.localStorage.removeItem('blogAppUser')
+    setNotification(`${user.name} logged out`)
+    setTimeout(() => setNotification(null), 3000)
     setUser(null)
   }
 
@@ -59,16 +66,25 @@ const App = () => {
       author: author.value,
       url: url.value,
     }
-    const addedBlog = await blogService.createBlog(newBlog);
-    setBlogs(blogs.concat(addedBlog))
-    title.value = ''
-    author.value = ''
-    url.value = ''
+    try {
+      const addedBlog = await blogService.createBlog(newBlog);
+      setBlogs(blogs.concat(addedBlog))
+      title.value = ''
+      author.value = ''
+      url.value = ''
+      setNotification('blog added successfully');
+      setTimeout(() => setNotification(null), 3000)
+    } catch (err) {
+      console.log(err)
+      setNotification(err);
+      setTimeout(() => setNotification(null), 3000)
+    }
   }
 
   if (!user) {
     return (
       <div>
+        {notification ? <Notification message={notification} /> : ''}
         <h2>log in to application</h2>
         <LoginForm
           username={username}
@@ -82,6 +98,7 @@ const App = () => {
   } else {
     return (
       <div>
+        {notification ? <Notification message={notification} /> : ''}
         <button onClick={handleLogout}>Logout</button>
         <h2>blogs</h2>
         {blogs.map(blog =>
