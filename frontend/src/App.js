@@ -64,21 +64,12 @@ const App = () => {
 
   const handlePasswordChange = ({ target }) => setPassword(target.value);
 
-  const addBlog = async (e) => {
-    e.preventDefault()
-    const { title, author, url } = e.target;
-    const newBlog = {
-      title: title.value,
-      author: author.value,
-      url: url.value,
-    }
+  const addBlog = async (title, author, url) => {
+    const newBlog = { title, author, url }
     try {
       blogFormRef.current.toggleVisibility()
       const addedBlog = await blogService.createBlog(newBlog);
       setBlogs(blogs.concat(addedBlog))
-      title.value = ''
-      author.value = ''
-      url.value = ''
       setNotification('blog added successfully');
       setTimeout(() => setNotification(null), 3000)
     } catch (err) {
