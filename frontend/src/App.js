@@ -10,11 +10,11 @@ import Togglable from './components/Togglable'
 const App = () => {
   //---------STATE---------->
   const [blogs, setBlogs] = useState([])
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null)
   const [notification, setNotification] = useState(null)
 
   //---------REFS---------->
-  const blogFormRef = useRef();
+  const blogFormRef = useRef()
 
   //---------HOOKS---------->
   useEffect(() => (async () => {
@@ -49,7 +49,7 @@ const App = () => {
     }
   }
 
-  const handleLogout = (e) => {
+  const handleLogout = () => {
     window.sessionStorage.removeItem('blogAppUser')
     setNotification(`${user.name} logged out`)
     setTimeout(() => setNotification(null), 3000)
@@ -61,13 +61,13 @@ const App = () => {
     const newBlog = { title, author, url, username: user.username }
     try {
       blogFormRef.current.toggleVisibility()
-      const addedBlog = await blogService.createBlog(newBlog);
+      const addedBlog = await blogService.createBlog(newBlog)
       setBlogs(blogs.concat(addedBlog))
-      setNotification('blog added successfully');
+      setNotification('blog added successfully')
       setTimeout(() => setNotification(null), 3000)
     } catch (err) {
       console.log(err)
-      setNotification(err);
+      setNotification(err)
       setTimeout(() => setNotification(null), 3000)
     }
   }
@@ -81,13 +81,13 @@ const App = () => {
       title,
       url
     }
-    const updatedBlog = await blogService.updateBlog(update);
-    console.log('returned updatedBlog: ', updatedBlog);
-    setBlogs(blogs.filter(blog => blog.id !== updatedBlog.id).concat(updatedBlog));
+    const updatedBlog = await blogService.updateBlog(update)
+    console.log('returned updatedBlog: ', updatedBlog)
+    setBlogs(blogs.filter(blog => blog.id !== updatedBlog.id).concat(updatedBlog))
   }
 
   const deleteBlog = async ({ id }) => {
-    blogService.deleteBlog(id);
+    blogService.deleteBlog(id)
     setBlogs(blogs.filter(blog => blog.id !== id))
   }
 

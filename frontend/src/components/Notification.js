@@ -1,5 +1,3 @@
-/* eslint-disable import/no-anonymous-default-export */
-import React from "react";
 const notificationStyle = {
   padding: '0px 10px',
   backgroundColor: 'lightgrey',
@@ -19,12 +17,12 @@ const errorStyle = {
 }
 
 const Notification = ({ message }) => {
-  let error;
-  if (!message) return null;
+  let error
+  if (!message) return null
   if (message instanceof Error) {
     message = message.response.data.error
-    error = true;
-  } else error = false;
+    error = true
+  } else error = false
   return (
     <div style={error ? errorStyle : notificationStyle}>
       <h2>{message ? message : ''}</h2>

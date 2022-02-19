@@ -31,7 +31,7 @@ blogsRouter.delete('/:id', async (req, res) => {
 
   const blog = await Blog.findById(req.params.id);
   if (!blog) return res.status(400).json({ error: 'blog not found' });
-  // ? is this the right logic? 
+  // ? is this the right logic?
   if (blog.user.toString() === user.id) {
     const result = await Blog.deleteOne(blog);
     return res.status(200).json(result);

@@ -5,10 +5,10 @@ const LoginForm = ({ handleLogin }) => {
   const [password, setPassword] = useState('')
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    handleLogin(username, password);
-    setUsername('');
-    setPassword('');
+    e.preventDefault()
+    handleLogin(username, password)
+    setUsername('')
+    setPassword('')
   }
   return (
     < form onSubmit={handleSubmit} >
