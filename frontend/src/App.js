@@ -10,8 +10,6 @@ import Togglable from './components/Togglable'
 const App = () => {
   //---------STATE---------->
   const [blogs, setBlogs] = useState([])
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
   const [user, setUser] = useState(null);
   const [notification, setNotification] = useState(null)
 
@@ -32,21 +30,19 @@ const App = () => {
       blogService.setToken(parsedUser.token)
     }
   }, [])
-  const handleLogin = async (e) => {
-    e.preventDefault()
+
+  const handleLogin = async (username, password) => {
     try {
       const user = await loginService.login({ username, password })
       setUser(user)
       blogService.setToken(user.token)
       window.localStorage.setItem('blogAppUser', JSON.stringify(user))
-      setUsername('')
-      setPassword('')
       setNotification('login successful')
       setTimeout(() => {
         setNotification(null)
       }, 3000)
     } catch (err) {
-      setNotification('Wrong credentials')
+      setNotification(err)
       setTimeout(() => {
         setNotification(null)
       }, 3000)
@@ -60,9 +56,6 @@ const App = () => {
     setUser(null)
   }
 
-  const handleUsernameChange = ({ target }) => setUsername(target.value);
-
-  const handlePasswordChange = ({ target }) => setPassword(target.value);
 
   const addBlog = async (title, author, url) => {
     const newBlog = { title, author, url }
@@ -84,13 +77,7 @@ const App = () => {
       <div>
         {notification ? <Notification message={notification} /> : ''}
         <h2>log in to application</h2>
-        <LoginForm
-          username={username}
-          password={password}
-          handleLogin={handleLogin}
-          handleUsernameChange={handleUsernameChange}
-          handlePasswordChange={handlePasswordChange}
-        />
+        <LoginForm handleLogin={handleLogin} />
       </div>
     )
   } else {
