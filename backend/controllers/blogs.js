@@ -31,7 +31,7 @@ blogsRouter.delete('/:id', async (req, res) => {
 
   const blog = await Blog.findById(req.params.id);
   if (!blog) return res.status(400).json({ error: 'blog not found' });
-
+  // ? is this the right logic? 
   if (blog.user.toString() === user.id) {
     const result = await Blog.deleteOne(blog);
     return res.status(200).json(result);
@@ -46,7 +46,7 @@ blogsRouter.put('/:id', async (req, res) => {
 
   let updatedBlog;
   if (blog.user.toString() === user.id) {
-    updatedBlog = await Blog.findByIdAndUpdate(req.params.id, body, { new: true });
+    updatedBlog = await (await Blog.findByIdAndUpdate(req.params.id, body, { new: true })).populate('user', { username: 1, name: 1 });
   }
   if (updatedBlog) {
     return res.status(200).json(updatedBlog);

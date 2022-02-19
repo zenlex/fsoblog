@@ -23,7 +23,7 @@ const App = () => {
   }), [user])
 
   useEffect(() => {
-    const loggedUser = window.localStorage.getItem('blogAppUser')
+    const loggedUser = window.sessionStorage.getItem('blogAppUser')
     if (loggedUser) {
       const parsedUser = JSON.parse(loggedUser)
       setUser(parsedUser)
@@ -36,7 +36,7 @@ const App = () => {
       const user = await loginService.login({ username, password })
       setUser(user)
       blogService.setToken(user.token)
-      window.localStorage.setItem('blogAppUser', JSON.stringify(user))
+      window.sessionStorage.setItem('blogAppUser', JSON.stringify(user))
       setNotification('login successful')
       setTimeout(() => {
         setNotification(null)
@@ -50,7 +50,7 @@ const App = () => {
   }
 
   const handleLogout = (e) => {
-    window.localStorage.removeItem('blogAppUser')
+    window.sessionStorage.removeItem('blogAppUser')
     setNotification(`${user.name} logged out`)
     setTimeout(() => setNotification(null), 3000)
     setUser(null)
@@ -82,7 +82,13 @@ const App = () => {
       url
     }
     const updatedBlog = await blogService.updateBlog(update);
+    console.log('returned updatedBlog: ', updatedBlog);
     setBlogs(blogs.filter(blog => blog.id !== updatedBlog.id).concat(updatedBlog));
+  }
+
+  const deleteBlog = async ({ id }) => {
+    blogService.deleteBlog(id);
+    setBlogs(blogs.filter(blog => blog.id !== id))
   }
 
   if (!user) {
@@ -100,7 +106,7 @@ const App = () => {
         <button onClick={handleLogout}>Logout</button>
         <h2>blogs</h2>
         {blogs.sort(({ likes: a }, { likes: b }) => b - a).map(blog =>
-          <Blog key={blog.id} blog={blog} updateBlog={updateBlog} />
+          <Blog key={blog.id} blog={blog} currUser={user} updateBlog={updateBlog} deleteBlog={deleteBlog} />
         )}
         <Togglable buttonLabel="add blog" ref={blogFormRef}>
           <BlogForm addBlog={addBlog} />
