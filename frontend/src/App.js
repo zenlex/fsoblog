@@ -99,7 +99,7 @@ const App = () => {
         {notification ? <Notification message={notification} /> : ''}
         <button onClick={handleLogout}>Logout</button>
         <h2>blogs</h2>
-        {blogs.map(blog =>
+        {blogs.sort(({ likes: a }, { likes: b }) => b - a).map(blog =>
           <Blog key={blog.id} blog={blog} updateBlog={updateBlog} />
         )}
         <Togglable buttonLabel="add blog" ref={blogFormRef}>
