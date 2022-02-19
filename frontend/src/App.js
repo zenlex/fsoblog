@@ -58,7 +58,7 @@ const App = () => {
 
 
   const addBlog = async (title, author, url) => {
-    const newBlog = { title, author, url }
+    const newBlog = { title, author, url, username: user.username }
     try {
       blogFormRef.current.toggleVisibility()
       const addedBlog = await blogService.createBlog(newBlog);
