@@ -46,7 +46,7 @@ blogsRouter.put('/:id', async (req, res) => {
 
   let updatedBlog;
   if (blog.user.toString() === user.id) {
-    updatedBlog = await Blog.findByIdAndUpdate(req.params.id, body);
+    updatedBlog = await Blog.findByIdAndUpdate(req.params.id, body, { new: true });
   }
   if (updatedBlog) {
     return res.status(200).json(updatedBlog);
