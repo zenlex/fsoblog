@@ -54,3 +54,35 @@ test('clicking details button shows likes and url', async () => {
   expect(likes).toBeDefined()
   expect(url).toBeDefined()
 })
+
+test('clicking like calls handler correct num of times', () => {
+  const NUMCLICKS = 2
+  const blog = {
+    title: 'TestBlog',
+    author: 'TestAuthor',
+    likes: 42,
+    url: 'http://dontshowme.com',
+    user: { name: 'testUser', id: '12345' },
+  }
+
+  const handleLike = jest.fn()
+
+  render(<Blog blog={blog}
+    updateBlog={() => handleLike()}
+    deleteBlog={() => console.log('deleteBlog')}
+    currUser={{ name: 'testUser', id: '12345' }}
+  />)
+
+  const detailsButton = screen.getByText('view')
+
+  userEvent.click(detailsButton)
+
+  const likeButton = screen.getByText('like')
+  let clickCounter = NUMCLICKS
+  while (clickCounter > 0) {
+    userEvent.click(likeButton)
+    clickCounter--
+  }
+
+  expect(handleLike.mock.calls).toHaveLength(NUMCLICKS)
+})
