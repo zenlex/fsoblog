@@ -44,11 +44,11 @@ test('clicking details button shows likes and url', async () => {
     currUser={{ name: 'testUser', id: '12345' }}
   />)
 
-  const button = screen.getByText('view');
+  const button = screen.getByText('view')
 
   userEvent.click(button)
 
-  const likes = screen.getByText('Likes:', { exact: false });
+  const likes = screen.getByText('Likes:', { exact: false })
   const url = screen.getByText('URL', { exact: false })
 
   expect(likes).toBeDefined()
