@@ -15,7 +15,13 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production node index.js",
     "dev": "cross-env NODE_ENV=development nodemon index.js:watch",
-    "test": "cross-env NODE_ENV=test jest --verbose "
+    "build:ui": "rm -rf build && cd ../frontend && npm run build && cp -r build ../backend",
+    "deploy": "git push heroku main",
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push && npm run deploy",
+    "logs:prod": "herogu logs --tail",
+    "lint": "eslint .",
+    "test": "cross-env NODE_ENV=test jest --verbose ",
+    "start:test": "cross-env NODE_ENV=test node index.js"
   },
   "devDependencies": {
     "eslint": "^8.8.0",
