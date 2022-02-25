@@ -58,5 +58,30 @@ describe('Blog app', function () {
 
       cy.get('html').should('contain', 'blog by cypress')
     })
+
+    it('user can like a blog', function () {
+      cy.contains('add blog').click()
+      cy.get('[data-cy=title]').type('likable')
+      cy.get('[data-cy=author]').type('Sy Press')
+      cy.get('[data-cy=url]').type('http://localhost.com')
+
+      cy.contains('create').click()
+
+      cy.contains('likable').parent().parent().as('blogContainer')
+      cy.get('@blogContainer')
+        .contains('view')
+        .click()
+
+      cy.get('[data-cy=likes]')
+        .should('contain', 'Likes: 0')
+
+      cy.get('@blogContainer')
+        .contains('like')
+        .click()
+
+      cy.get('@blogContainer')
+        .should('contain', 'Likes: 1')
+
+    })
   })
 })
