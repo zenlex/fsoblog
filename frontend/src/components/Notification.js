@@ -24,7 +24,7 @@ const Notification = ({ message }) => {
     error = true
   } else error = false
   return (
-    <div style={error ? errorStyle : notificationStyle}>
+    <div style={error ? errorStyle : notificationStyle} className="notification">
       <h2>{message ? message : ''}</h2>
     </div>
   )
