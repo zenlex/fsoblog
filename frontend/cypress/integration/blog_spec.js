@@ -58,7 +58,20 @@ describe('Blog app', function () {
 
       cy.get('@blogContainer')
         .should('contain', 'Likes: 1')
+    })
 
+    it('user can delete a blog', function () {
+      cy.addBlog('likable', 'Sy press', 'likes.com')
+      cy.contains('likable').parent().parent().as('blogContainer')
+      cy.get('@blogContainer')
+        .contains('view')
+        .click()
+
+      cy.get('@blogContainer')
+        .get('[data-cy=delete]')
+        .click()
+
+      cy.get('html').should('not.contain', 'likable')
     })
   })
 })

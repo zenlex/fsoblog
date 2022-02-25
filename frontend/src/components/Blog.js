@@ -41,7 +41,7 @@ const Blog = ({ blog, updateBlog, deleteBlog, currUser }) => {
             <button onClick={handleLike} data-cy="like-btn">like</button>
           </span>
           <p>Submitted by User: {blog.user.name}</p>
-          {currUser.id === blog.user.id && <button onClick={handleDelete}>remove</button>}
+          {currUser.id === blog.user.id && <button data-cy="delete" onClick={handleDelete}>remove</button>}
         </div>
       }
     </div >
