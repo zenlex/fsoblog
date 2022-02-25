@@ -13,7 +13,7 @@ describe('Blog app', function () {
     cy.contains('username')
     cy.contains('password')
 
-    cy.get('html').should('not.contain', 'logged in')
+    cy.get('html').should('not.contain', 'Logout')
   })
 
   describe('Login', function () {
@@ -31,6 +31,32 @@ describe('Blog app', function () {
 
       cy.get('html').should('not.contain', 'login successful')
       cy.contains('invalid').should('have.css', 'color', 'rgb(255, 0, 0)')
+    })
+  })
+
+  describe('While logged in', function () {
+    beforeEach(function () {
+      cy.request('POST', 'https://localhost:3003/api/login', {
+        username: 'codemonkey', password: 'foobar'
+      }).then(response => {
+        console.log('response from api login', JSON.stringify(response.body), null, 2)
+        window.sessionStorage.setItem('blogAppUser', JSON.stringify(response.body))
+        cy.visit('https://localhost:3000')
+      })
+    })
+    it('should show logout button', function () {
+      cy.get('html').should('not.contain', 'Logout')
+    })
+
+    it('user can add new blog', function () {
+      cy.contains('add blog').click()
+      cy.get('[data-cy=title]').type('blog by cypress')
+      cy.get('[data-cy=author]').type('Sy Press')
+      cy.get('[data-cy=url]').type('http://localhost.com')
+
+      cy.contains('create').click()
+
+      cy.get('html').should('contain', 'blog by cypress')
     })
   })
 })
