@@ -73,5 +73,27 @@ describe('Blog app', function () {
 
       cy.get('html').should('not.contain', 'likable')
     })
+
+    it('cannot delete a blog by another user', function () {
+      // create blog to delete
+      cy.addBlog('undeletable', 'Sy press', 'likes.com')
+      cy.contains('Logout').click()
+
+      // create 2nd user
+      cy.request('POST', 'https://localhost:3003/api/users', {
+        username: 'user2', password: 'foobar', name: 'Test User 2'
+      })
+      cy.loginBlind('user2', 'foobar')
+
+      // open created blog
+      cy.contains('undeletable').parent().parent().as('blogContainer')
+      cy.get('@blogContainer')
+        .contains('view')
+        .click()
+
+      // should not have delete button
+      cy.get('@blogContainer')
+        .get('[data-cy=delete]').should('not.exist')
+    })
   })
 })
