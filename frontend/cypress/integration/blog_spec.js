@@ -95,5 +95,7 @@ describe('Blog app', function () {
       cy.get('@blogContainer')
         .get('[data-cy=delete]').should('not.exist')
     })
+
+    // TODO: Optional 5.22* add testing to ensure blogs are sorted correctly by likes
   })
 })
