@@ -50,7 +50,12 @@ const App = () => {
         dispatch(setAlert(null));
       }, 3000);
     } catch (err) {
-      dispatch(setAlert({ type: 'error', message: err.response.data.error }));
+      dispatch(
+        setAlert({
+          type: 'error',
+          message: err.response.data.error || err.message,
+        })
+      );
       setTimeout(() => {
         dispatch(setAlert(null));
       }, 3000);
@@ -59,7 +64,7 @@ const App = () => {
 
   const handleLogout = () => {
     window.sessionStorage.removeItem('blogAppUser');
-    dispatch(setAlert(`${user.name} logged out`));
+    dispatch(setAlert({ type: 'success', message: `${user.name} logged out` }));
     setTimeout(() => dispatch(setAlert(null)), 3000);
     dispatch(setUser(null));
   };
