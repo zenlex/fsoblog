@@ -5,12 +5,18 @@ const Users = () => {
   return (
     <div>
       <h1>user info</h1>
+      <table>
+        <thead>
+          <th>Name</th>
+          <th>Blogs Created</th>
+        </thead>
+        <tbody></tbody>
+      </table>
       {usersInfo.map((user) => (
-        <li key={user.username}>
-          <span>
-            {user.name} ==&gt; blogs: {user.blogs.length}
-          </span>
-        </li>
+        <trow key={user.username}>
+          <td>{user.name}</td>
+          <td>{user.blogs.length}</td>
+        </trow>
       ))}
     </div>
   );
