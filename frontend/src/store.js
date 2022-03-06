@@ -1,5 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { blogReducer, userReducer, alertReducer } from './reducers';
+import {
+  blogReducer,
+  userReducer,
+  alertReducer,
+  usersInfoReducer,
+} from './reducers';
 
 const initialState = {
   blogs: [
@@ -21,6 +26,7 @@ const store = configureStore({
     blogs: blogReducer,
     user: userReducer,
     alert: alertReducer,
+    usersInfo: usersInfoReducer,
   },
 });
 

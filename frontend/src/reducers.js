@@ -54,3 +54,17 @@ const alertSlice = createSlice({
 
 export const alertReducer = alertSlice.reducer;
 export const { setAlert } = alertSlice.actions;
+
+const usersInfoSlice = createSlice({
+  name: 'usersInfo',
+  initialState: [],
+  reducers: {
+    setUsersInfo(state, action) {
+      console.log('setUsersInfo called: ', action);
+      return action.payload;
+    },
+  },
+});
+
+export const usersInfoReducer = usersInfoSlice.reducer;
+export const { setUsersInfo } = usersInfoSlice.actions;

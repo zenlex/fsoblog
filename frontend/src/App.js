@@ -4,10 +4,12 @@ import blogService from './services/blogs';
 import LoginForm from './components/LoginForm';
 import loginService from './services/login';
 import BlogForm from './components/BlogForm';
+import UsersService from './services/users';
 import Notification from './components/Notification';
 import Togglable from './components/Togglable';
+import Users from './components/Users';
 import { useDispatch, useSelector } from 'react-redux';
-import { setBlogs, setUser, setAlert } from './reducers';
+import { setBlogs, setUser, setAlert, setUsersInfo } from './reducers';
 
 const App = () => {
   //---------STATE---------->
@@ -38,6 +40,14 @@ const App = () => {
       blogService.setToken(parsedUser.token);
     }
   }, []);
+
+  useEffect(
+    () => async () => {
+      const usersInfo = await UsersService.getAll();
+      dispatch(setUsersInfo(usersInfo));
+    },
+    [user]
+  );
 
   const handleLogin = async (username, password) => {
     try {
@@ -133,6 +143,7 @@ const App = () => {
         <Togglable buttonLabel='add blog' ref={blogFormRef}>
           <BlogForm addBlog={addBlog} />
         </Togglable>
+        <Users />
       </div>
     );
   }
