@@ -10,7 +10,7 @@ const initialState = {
 const store = configureStore({
   name: 'blogstore',
   initialState,
-  reducers: {
+  reducer: {
     blogs: blogReducer,
     users: userReducer,
     alerts: alertReducer,

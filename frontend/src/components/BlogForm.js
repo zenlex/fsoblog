@@ -1,56 +1,58 @@
-import { useState } from 'react'
+import { useState } from 'react';
 
 const BlogForm = ({ addBlog }) => {
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
+  const [title, setTitle] = useState('');
+  const [author, setAuthor] = useState('');
+  const [url, setUrl] = useState('');
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    addBlog(title, author, url)
-    setTitle('')
-    setAuthor('')
-    setUrl('')
-  }
+    e.preventDefault();
+    addBlog(title, author, url);
+    setTitle('');
+    setAuthor('');
+    setUrl('');
+  };
 
   return (
     <form onSubmit={handleSubmit}>
       <div>
         title:
         <input
-          type="text"
+          type='text'
           value={title}
-          name="title"
-          placeholder="enter title"
+          name='title'
+          placeholder='enter title'
           onChange={({ target }) => setTitle(target.value)}
-          data-cy="title"
+          data-cy='title'
         />
       </div>
       <div>
         author:
         <input
-          type="text"
+          type='text'
           value={author}
-          name="author"
-          placeholder="enter author"
+          name='author'
+          placeholder='enter author'
           onChange={({ target }) => setAuthor(target.value)}
-          data-cy="author"
+          data-cy='author'
         />
       </div>
       <div>
         url:
         <input
-          type="text"
+          type='text'
           value={url}
-          name="url"
-          placeholder="enter url"
+          name='url'
+          placeholder='enter url'
           onChange={({ target }) => setUrl(target.value)}
-          data-cy="url"
+          data-cy='url'
         />
       </div>
-      <button type="submit" name="create">create</button>
+      <button type='submit' name='create'>
+        create
+      </button>
     </form>
-  )
-}
+  );
+};
 
-export default BlogForm
+export default BlogForm;
