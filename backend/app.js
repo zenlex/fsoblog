@@ -12,13 +12,24 @@ const config = require('./utils/config');
 const logger = require('./utils/logger');
 const middleware = require('./utils/middleware');
 
-logger.info('Connecting to MongoDB');
+if (process.env.NODE_ENV === 'test') {
+  console.log('Connecting to Mongo DB in test DB');
+} else {
+  logger.info('Connecting to MongoDB');
+}
+
 mongoose.connect(config.MONGO_URL)
   .then(() => {
-    logger.info('connected to MongoDB');
+    if (process.env.NODE_ENV === 'test') {
+      console.log('connected to test MongoDB instance');
+    } else {
+      logger.info('connected to MongoDB');
+    }
   })
   .catch((err) => {
-    logger.error('error connecting to MongoDB:', err.message);
+    if (process.env.NODE_ENV === 'test') {
+      console.log('error connecting to MongoDB test instance');
+    } else { logger.error('error connecting to MongoDB:', err.message); }
   });
 
 app.use(cors());
