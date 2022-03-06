@@ -90,6 +90,7 @@ describe('when there is initially one user in db', () => {
     expect(usersAtEnd).toHaveLength(usersAtStart.length);
   });
 });
-afterAll(() => {
+afterAll(async () => {
+  await User.deleteMany({});
   mongoose.connection.close();
 });
