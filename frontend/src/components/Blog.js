@@ -13,8 +13,7 @@ const Blog = ({ blog, updateBlog, deleteBlog, currUser }) => {
   const [showDetails, setShowDetails] = useState(false);
 
   const handleLike = () => {
-    blog.likes += 1;
-    updateBlog(blog);
+    updateBlog({ ...blog, likes: blog.likes + 1 });
   };
 
   const handleDelete = () => {

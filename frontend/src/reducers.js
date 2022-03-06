@@ -9,25 +9,31 @@ const blogSlice = createSlice({
       likes: 42,
       url: 'http://dontshowme.com',
       id: 42,
+      user: {
+        name: 'Testy Test',
+      },
     },
   ],
   reducers: {
     getBlogs(state, action) {
       console.log('getBlogs action called', action);
+      return state.sort(({ likes: a }, { likes: b }) => b - a);
+    },
+    setBlogs(state, action) {
+      return action.payload.sort(({ likes: a }, { likes: b }) => b - a);
     },
   },
 });
 
 export const blogReducer = blogSlice.reducer;
-export const { getBlogs } = blogSlice.actions;
+export const { getBlogs, setBlogs } = blogSlice.actions;
 
 const userSlice = createSlice({
   name: 'users',
   initialState: null,
   reducers: {
     setUser(state, action) {
-      console.log('userReducer called', action);
-      return state;
+      return action.payload;
     },
   },
 });
@@ -41,7 +47,7 @@ const alertSlice = createSlice({
   reducers: {
     setAlert(state, action) {
       console.log('alertReducer called', action);
-      return state;
+      return action.payload;
     },
   },
 });

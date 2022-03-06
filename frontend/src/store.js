@@ -19,8 +19,8 @@ const store = configureStore({
   initialState,
   reducer: {
     blogs: blogReducer,
-    users: userReducer,
-    alerts: alertReducer,
+    user: userReducer,
+    alert: alertReducer,
   },
 });
 

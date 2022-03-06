@@ -16,19 +16,14 @@ const errorStyle = {
   margin: '10px 0px',
 };
 
-const Notification = ({ message }) => {
-  let error;
-  if (!message) return null;
-  if (message instanceof Error) {
-    message = message.response.data.error;
-    error = true;
-  } else error = false;
+const Notification = ({ alert }) => {
+  if (!alert) return null;
   return (
     <div
-      style={error ? errorStyle : notificationStyle}
+      style={alert.type === 'error' ? errorStyle : notificationStyle}
       className='notification'
     >
-      <h2>{message ? message : ''}</h2>
+      <h2>{alert.message}</h2>
     </div>
   );
 };
