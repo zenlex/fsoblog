@@ -6,21 +6,23 @@ import loginService from './services/login';
 import BlogForm from './components/BlogForm';
 import Notification from './components/Notification';
 import Togglable from './components/Togglable';
+import { useSelector } from 'react-redux';
 
 const App = () => {
   //---------STATE---------->
-  const [blogs, setBlogs] = useState([]);
+  // const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
   const [notification, setNotification] = useState(null);
 
+  const blogs = useSelector((state) => state.blogs);
   //---------REFS---------->
   const blogFormRef = useRef();
 
   //---------HOOKS---------->
   useEffect(
     () => async () => {
-      const blogs = await blogService.getAll();
-      setBlogs(blogs);
+      // const blogs = await blogService.getAll();
+      // setBlogs(blogs);
     },
     [user]
   );
@@ -60,11 +62,12 @@ const App = () => {
   };
 
   const addBlog = async (title, author, url) => {
-    const newBlog = { title, author, url, username: user.username };
+    console.log('addBlog dofer during refactor:', { title, author, url });
+    // const newBlog = { title, author, url, username: user.username };
     try {
       blogFormRef.current.toggleVisibility();
-      const addedBlog = await blogService.createBlog(newBlog);
-      setBlogs(blogs.concat(addedBlog));
+      // const addedBlog = await blogService.createBlog(newBlog);
+      // setBlogs(blogs.concat(addedBlog));
       setNotification('blog added successfully');
       setTimeout(() => setNotification(null), 3000);
     } catch (err) {
@@ -85,14 +88,14 @@ const App = () => {
     };
     const updatedBlog = await blogService.updateBlog(update);
     console.log('returned updatedBlog: ', updatedBlog);
-    setBlogs(
-      blogs.filter((blog) => blog.id !== updatedBlog.id).concat(updatedBlog)
-    );
+    // setBlogs(
+    //   blogs.filter((blog) => blog.id !== updatedBlog.id).concat(updatedBlog)
+    // );
   };
 
   const deleteBlog = async ({ id }) => {
     blogService.deleteBlog(id);
-    setBlogs(blogs.filter((blog) => blog.id !== id));
+    // setBlogs(blogs.filter((blog) => blog.id !== id));
   };
 
   if (!user) {
