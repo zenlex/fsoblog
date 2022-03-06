@@ -9,15 +9,21 @@ const helper = require('./test_helper');
 
 const api = supertest(app);
 let token;
-const testblogs = require('./testblogs');
+let testblogs = require('./testblogs');
+
+let testUser = new User({
+  username: 'root2',
+  name: 'test user',
+  passwordHash: null,
+});
 
 beforeAll(async () => {
   await User.deleteMany({});
 
-  const passwordHash = await bcrypt.hash('sekret', 10);
-  const user = new User({ username: 'root2', name: 'test user', passwordHash });
+  testUser.passwordHash = await bcrypt.hash('sekret', 10);
 
-  await user.save();
+  testUser = await testUser.save();
+  testblogs = testblogs.map((b) => ({ ...b, user: testUser.id }));
 
   const response = await api
     .post('/api/login')
@@ -73,6 +79,7 @@ describe('post new blog', () => {
       title: 'Added Blog for Testing',
       author: 'foo bar baz',
       url: 'http://zenlex.dev',
+      username: testUser.username,
     };
 
     await api
@@ -94,6 +101,7 @@ describe('default values', () => {
     const testBlog = {
       title: 'blog for testing no likes',
       author: 'foo bar baz',
+      username: testUser.username,
     };
     const response = await api
       .post('/api/blogs')
@@ -124,6 +132,7 @@ describe('delete blog', () => {
     const blogToDelete = {
       title: 'blog to be deleted now with user',
       author: 'foo bar baz',
+      username: testUser.username,
     };
     const saveResponse = await api
       .post('/api/blogs/')
@@ -132,10 +141,7 @@ describe('delete blog', () => {
 
     const blogsAfterAdd = await helper.blogsInDb();
     const url = `/api/blogs/${saveResponse.body.id}`;
-    await api
-      .delete(url)
-      .set('Authorization', `bearer ${token}`)
-      .expect(200);
+    await api.delete(url).set('Authorization', `bearer ${token}`).expect(200);
 
     const blogsAfterDelete = await helper.blogsInDb();
 
@@ -148,6 +154,7 @@ describe('update blog', () => {
     const blogToUpdate = {
       title: 'blog to be updated',
       author: 'foo bar baz',
+      username: testUser.username,
     };
 
     const saveResponse = await api
@@ -166,9 +173,10 @@ describe('update blog', () => {
       .send(updates)
       .expect(200);
 
-    const blogsAfterUpdate = await helper
-      .blogsInDb();
-    const updatedBlog = blogsAfterUpdate.filter((blog) => blog.id === saveResponse.body.id)[0];
+    const blogsAfterUpdate = await helper.blogsInDb();
+    const updatedBlog = blogsAfterUpdate.find(
+      (blog) => blog.id === saveResponse.body.id,
+    );
 
     expect(updatedBlog.title).toBe(updates.title);
     expect(updatedBlog.likes).toBe(updates.likes);

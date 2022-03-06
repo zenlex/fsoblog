@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@reduxjs/toolkit": "^1.8.0",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.6.3",
@@ -10,7 +11,9 @@
     "prop-types": "^15.8.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-redux": "^7.2.6",
     "react-scripts": "^5.0.0",
+    "redux": "^4.1.2",
     "web-vitals": "^0.2.4"
   },
   "scripts": {
@@ -19,13 +22,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "eslint": "eslint . --fix",
-    "cypress:open": "cypress open"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "cypress:open": "cypress open",
+    "test:e2e": "cypress run"
   },
   "browserslist": {
     "production": [

@@ -20,7 +20,7 @@
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push && npm run deploy",
     "logs:prod": "herogu logs --tail",
     "lint": "eslint .",
-    "test": "cross-env NODE_ENV=test jest --verbose ",
+    "test": "cross-env NODE_ENV=test jest --runInBand --verbose ",
     "start:test": "cross-env NODE_ENV=test node index.js"
   },
   "devDependencies": {

@@ -4,8 +4,8 @@ const notificationStyle = {
   color: 'green',
   border: '3px solid green',
   borderRadius: 5,
-  margin: '10px 0px'
-}
+  margin: '10px 0px',
+};
 
 const errorStyle = {
   padding: '0px 10px',
@@ -13,21 +13,19 @@ const errorStyle = {
   color: 'red',
   border: '3px solid red',
   borderRadius: 5,
-  margin: '10px 0px'
-}
+  margin: '10px 0px',
+};
 
-const Notification = ({ message }) => {
-  let error
-  if (!message) return null
-  if (message instanceof Error) {
-    message = message.response.data.error
-    error = true
-  } else error = false
+const Notification = ({ alert }) => {
+  if (!alert) return null;
   return (
-    <div style={error ? errorStyle : notificationStyle} className="notification">
-      <h2>{message ? message : ''}</h2>
+    <div
+      style={alert.type === 'error' ? errorStyle : notificationStyle}
+      className='notification'
+    >
+      <h2>{alert.message}</h2>
     </div>
-  )
-}
+  );
+};
 
-export default Notification
+export default Notification;
