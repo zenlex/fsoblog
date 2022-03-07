@@ -5,13 +5,15 @@ import { setUsersInfo } from '../reducers';
 const Users = () => {
   const dispatch = useDispatch();
   const { usersInfo, user } = useSelector((state) => state);
-  useEffect(
-    () => async () => {
+  useEffect(() => {
+    const fetchData = async () => {
+      console.log('fetching usersInfo');
       const usersInfo = await UsersService.getAll();
+      console.log('dispatching usersInfo', usersInfo);
       dispatch(setUsersInfo(usersInfo));
-    },
-    [user]
-  );
+    };
+    fetchData();
+  }, []);
 
   if (!user) return null;
 

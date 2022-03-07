@@ -4,8 +4,9 @@ import LoginForm from './components/LoginForm';
 import BlogForm from './components/BlogForm';
 import Notification from './components/Notification';
 import Users from './components/Users';
+import UserDetail from './components/UserDetail';
 import { useSelector } from 'react-redux';
-import { Link, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Link, Route, Routes } from 'react-router-dom';
 
 const App = () => {
   //---------STATE---------->
@@ -15,17 +16,21 @@ const App = () => {
   //---------RETURN---------->
 
   return (
-    <div>
+    <Router>
       <Notification alert={alert} />
       <LoginForm />
       <Routes>
-        <Route path='/' element={<Blogs />} />
-
-        <Route path='/users' element={<Users />} />
+        <Route
+          path='/'
+          exact
+          element={user ? <Blogs /> : <div>please log in</div>}
+        />
+        <Route path='/users' exact element={<Users />} />
+        <Route path='/users/:id' exact element={<UserDetail />} />
       </Routes>
-      <BlogForm />
+      {user && <BlogForm />}
       <div>{user && <Link to='/users'>User Info</Link>}</div>
-    </div>
+    </Router>
   );
 };
 

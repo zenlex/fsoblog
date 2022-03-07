@@ -9,7 +9,6 @@ const BlogForm = () => {
   const [author, setAuthor] = useState('');
   const [url, setUrl] = useState('');
   const state = useSelector((state) => state);
-  console.log('blogForm state: ', state);
   const user = state.user || null;
   const blogs = state.blogs || null;
   const visible = state.visibilities.BlogForm || false;

@@ -3,16 +3,16 @@ import { createSlice } from '@reduxjs/toolkit';
 const blogSlice = createSlice({
   name: 'blogs',
   initialState: [
-    {
-      title: 'TestBlog',
-      author: 'TestAuthor',
-      likes: 42,
-      url: 'http://dontshowme.com',
-      id: 42,
-      user: {
-        name: 'Testy Test',
-      },
-    },
+    // {
+    //   title: 'TestBlog',
+    //   author: 'TestAuthor',
+    //   likes: 42,
+    //   url: 'http://dontshowme.com',
+    //   id: 42,
+    //   user: {
+    //     name: 'Testy Test',
+    //   },
+    // },
   ],
   reducers: {
     getBlogs(state, action) {
