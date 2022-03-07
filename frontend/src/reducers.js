@@ -15,8 +15,7 @@ const blogSlice = createSlice({
     // },
   ],
   reducers: {
-    getBlogs(state, action) {
-      console.log('getBlogs action called', action);
+    getBlogs(state) {
       return state.sort(({ likes: a }, { likes: b }) => b - a);
     },
     setBlogs(state, action) {
