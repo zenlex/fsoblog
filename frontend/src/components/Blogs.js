@@ -10,7 +10,7 @@ const Blogs = () => {
       const bloglist = await blogService.getAll();
       dispatch(setBlogs(bloglist));
     };
-    if (!blogs) {
+    if (blogs.length === 0) {
       fetchData();
     }
   }, []);
