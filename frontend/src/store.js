@@ -8,16 +8,11 @@ import {
 } from './reducers';
 
 const initialState = {
-  blogs: [
-    {
-      title: 'TestBlog',
-      author: 'TestAuthor',
-      likes: 42,
-      url: 'http://dontshowme.com',
-    },
-  ],
+  blogs: [],
   user: null,
   notification: null,
+  usersInfo: [],
+  visibilities: {},
 };
 
 const store = configureStore({

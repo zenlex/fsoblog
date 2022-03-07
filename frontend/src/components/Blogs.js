@@ -8,13 +8,13 @@ const Blogs = () => {
   const dispatch = useDispatch();
   const { blogs, user } = useSelector((state) => state);
 
-  useEffect(
-    () => async () => {
-      const blogs = await blogService.getAll();
-      dispatch(setBlogs(blogs));
-    },
-    [user]
-  );
+  useEffect(() => {
+    const fetchData = async () => {
+      const bloglist = await blogService.getAll();
+      dispatch(setBlogs(bloglist));
+    };
+    fetchData();
+  }, []);
 
   const updateBlog = async ({ id, user, likes, author, title, url }) => {
     const update = {
@@ -39,6 +39,7 @@ const Blogs = () => {
   };
 
   if (!user) return null;
+  if (blogs.length === 0) return <div>Loading...</div>;
 
   return (
     <div>
