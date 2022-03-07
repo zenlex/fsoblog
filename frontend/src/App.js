@@ -20,6 +20,7 @@ const App = () => {
     <Router>
       <Navbar />
       <Notification alert={alert} />
+      {user && <BlogForm />}
       <Routes>
         <Route
           path='/'
@@ -30,7 +31,6 @@ const App = () => {
         <Route path='/users/:id' exact element={<UserDetail />} />
         <Route path='/blogs/:id' exact element={<BlogDetail />} />
       </Routes>
-      {user && <BlogForm />}
     </Router>
   );
 };

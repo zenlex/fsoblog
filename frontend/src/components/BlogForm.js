@@ -95,6 +95,12 @@ const BlogForm = () => {
         <button type='submit' name='create'>
           create
         </button>
+        <button
+          type='button'
+          onClick={() => dispatch(setVisibility({ BlogForm: false }))}
+        >
+          cancel
+        </button>
       </form>
     );
   }
