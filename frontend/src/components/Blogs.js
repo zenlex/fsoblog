@@ -38,6 +38,8 @@ const Blogs = () => {
     dispatch(setBlogs(blogs.filter((blog) => blog.id !== id)));
   };
 
+  if (!user) return null;
+
   return (
     <div>
       <h2>blogs</h2>

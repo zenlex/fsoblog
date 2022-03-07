@@ -12,6 +12,9 @@ const Users = () => {
     },
     [user]
   );
+
+  if (!user) return null;
+
   return (
     <div>
       <h1>user info</h1>
