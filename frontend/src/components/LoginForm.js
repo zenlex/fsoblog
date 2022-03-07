@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import loginService from '../services/login';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setUser, setAlert } from '../reducers';
 import blogService from '../services/blogs';
 
@@ -8,6 +8,7 @@ const LoginForm = () => {
   const dispatch = useDispatch();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const { user } = useSelector((state) => state);
 
   useEffect(() => {
     const loggedUser = window.sessionStorage.getItem('blogAppUser');
@@ -41,14 +42,26 @@ const LoginForm = () => {
     }
   };
 
+  const handleLogout = () => {
+    window.sessionStorage.removeItem('blogAppUser');
+    dispatch(setAlert({ type: 'success', message: `${user.name} logged out` }));
+    setTimeout(() => dispatch(setAlert(null)), 3000);
+    dispatch(setUser(null));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     handleLogin(username, password);
     setUsername('');
     setPassword('');
   };
+  if (user) {
+    return <button onClick={handleLogout}>Logout</button>;
+  }
+
   return (
     <form onSubmit={handleSubmit}>
+      <h2>log in to application</h2>
       <div>
         username
         <input

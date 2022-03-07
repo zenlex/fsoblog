@@ -66,3 +66,17 @@ const usersInfoSlice = createSlice({
 
 export const usersInfoReducer = usersInfoSlice.reducer;
 export const { setUsersInfo } = usersInfoSlice.actions;
+
+const visibilitySlice = createSlice({
+  name: 'visibilities',
+  initialState: {},
+  reducers: {
+    setVisibility(state, action) {
+      //action.payload contains key/val pair
+      return { ...state, ...action.payload };
+    },
+  },
+});
+
+export const visibilityReducer = visibilitySlice.reducer;
+export const { setVisibility } = visibilitySlice.actions;
