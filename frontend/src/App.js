@@ -1,13 +1,13 @@
 import React from 'react';
 import Blogs from './components/Blogs';
-import LoginForm from './components/LoginForm';
 import BlogForm from './components/BlogForm';
 import BlogDetail from './components/BlogDetail';
 import Notification from './components/Notification';
 import Users from './components/Users';
 import UserDetail from './components/UserDetail';
 import { useSelector } from 'react-redux';
-import { BrowserRouter as Router, Link, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Navbar from './components/Navbar';
 
 const App = () => {
   //---------STATE---------->
@@ -18,20 +18,19 @@ const App = () => {
 
   return (
     <Router>
+      <Navbar />
       <Notification alert={alert} />
-      <LoginForm />
+      {user && <BlogForm />}
       <Routes>
         <Route
           path='/'
-          exact
-          element={user ? <Blogs /> : <div>please log in</div>}
+          element={<div>{user ? 'use menu to navigate' : 'please log in'}</div>}
         />
+        <Route path='/blogs' exact element={<Blogs />} />
         <Route path='/users' exact element={<Users />} />
         <Route path='/users/:id' exact element={<UserDetail />} />
         <Route path='/blogs/:id' exact element={<BlogDetail />} />
       </Routes>
-      {user && <BlogForm />}
-      <div>{user && <Link to='/users'>User Info</Link>}</div>
     </Router>
   );
 };
