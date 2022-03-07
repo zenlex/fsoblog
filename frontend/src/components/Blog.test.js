@@ -1,3 +1,4 @@
+//TODO: refactor/fix component tests to deal with Redux store and Router
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
@@ -12,14 +13,7 @@ test('renders title and author only', () => {
     url: 'http://dontshowme.com',
   };
 
-  render(
-    <Blog
-      blog={blog}
-      updateBlog={() => console.log('updateBlog')}
-      deleteBlog={() => console.log('deleteBlog')}
-      currUser={{ name: 'testUser' }}
-    />
-  );
+  render(<Blog blog={blog} currUser={{ name: 'testUser' }} />);
 
   const titleElement = screen.getByText('Title: TestBlog', { exact: false });
   const authorElement = screen.getByText('Author: TestAuthor', {

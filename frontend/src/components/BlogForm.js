@@ -14,7 +14,13 @@ const BlogForm = () => {
   const visible = state.visibilities.BlogForm || false;
 
   const addBlog = async (title, author, url) => {
-    const newBlog = { title, author, url, username: user.username };
+    const newBlog = {
+      title,
+      author,
+      url,
+      username: user.username,
+      user: user.id,
+    };
     try {
       const addedBlog = await blogService.createBlog(newBlog);
       dispatch(setBlogs(blogs.concat(addedBlog)));
@@ -23,7 +29,6 @@ const BlogForm = () => {
       );
       setTimeout(() => dispatch(setAlert(null)), 3000);
     } catch (err) {
-      console.log(err);
       dispatch(
         setAlert({
           type: 'error',

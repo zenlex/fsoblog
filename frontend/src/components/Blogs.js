@@ -5,53 +5,27 @@ import { setBlogs } from '../reducers';
 import Blog from './Blog';
 
 const Blogs = () => {
-  const dispatch = useDispatch();
-  const { blogs, user } = useSelector((state) => state);
-
   useEffect(() => {
     const fetchData = async () => {
       const bloglist = await blogService.getAll();
       dispatch(setBlogs(bloglist));
     };
-    fetchData();
+    if (!blogs) {
+      fetchData();
+    }
   }, []);
 
-  const updateBlog = async ({ id, user, likes, author, title, url }) => {
-    const update = {
-      id,
-      user: user.id,
-      likes,
-      author,
-      title,
-      url,
-    };
-    const updatedBlog = await blogService.updateBlog(update);
-    dispatch(
-      setBlogs(
-        blogs.filter((blog) => blog.id !== updatedBlog.id).concat(updatedBlog)
-      )
-    );
-  };
-
-  const deleteBlog = async ({ id }) => {
-    blogService.deleteBlog(id);
-    dispatch(setBlogs(blogs.filter((blog) => blog.id !== id)));
-  };
+  const dispatch = useDispatch();
+  const { blogs, user } = useSelector((state) => state);
 
   if (!user) return null;
-  if (blogs.length === 0) return <div>Loading...</div>;
+  if (blogs.length === 0) return <div>No Blogs Found...</div>;
 
   return (
     <div>
       <h2>blogs</h2>
       {blogs.map((blog) => (
-        <Blog
-          key={blog.id}
-          blog={blog}
-          currUser={user}
-          updateBlog={updateBlog}
-          deleteBlog={deleteBlog}
-        />
+        <Blog key={blog.id} blog={blog} />
       ))}
     </div>
   );

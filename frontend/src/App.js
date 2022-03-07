@@ -2,6 +2,7 @@ import React from 'react';
 import Blogs from './components/Blogs';
 import LoginForm from './components/LoginForm';
 import BlogForm from './components/BlogForm';
+import BlogDetail from './components/BlogDetail';
 import Notification from './components/Notification';
 import Users from './components/Users';
 import UserDetail from './components/UserDetail';
@@ -27,6 +28,7 @@ const App = () => {
         />
         <Route path='/users' exact element={<Users />} />
         <Route path='/users/:id' exact element={<UserDetail />} />
+        <Route path='/blogs/:id' exact element={<BlogDetail />} />
       </Routes>
       {user && <BlogForm />}
       <div>{user && <Link to='/users'>User Info</Link>}</div>
