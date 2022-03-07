@@ -1,5 +1,6 @@
 import axios from 'axios';
 const baseUrl = '/api/blogs';
+// import { useSelector } from 'react-redux';
 
 let token = null;
 
@@ -8,6 +9,7 @@ const setToken = (newToken) => {
 };
 
 const getAll = async () => {
+  // const token = useSelector((state) => state.user.token);
   const config = {
     headers: { Authorization: token },
   };
@@ -42,4 +44,4 @@ const deleteBlog = async (id) => {
   const response = await axios.delete(`${baseUrl}/${id}`, config);
   return response.data;
 };
-export default { getAll, setToken, createBlog, updateBlog, deleteBlog };
+export default { getAll, createBlog, setToken, updateBlog, deleteBlog };

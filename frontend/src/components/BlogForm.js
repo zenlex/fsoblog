@@ -1,9 +1,38 @@
 import { useState } from 'react';
-
-const BlogForm = ({ addBlog }) => {
+import { useDispatch, useSelector } from 'react-redux';
+import blogService from '../services/blogs';
+import { setBlogs, setAlert } from '../reducers';
+const BlogForm = ({ toggleVisibility }) => {
+  const dispatch = useDispatch();
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [url, setUrl] = useState('');
+  const { user, blogs } = useSelector((state) => ({
+    user: state.user,
+    blogs: state.blogs,
+  }));
+  const addBlog = async (title, author, url) => {
+    const newBlog = { title, author, url, username: user.username };
+    try {
+      //todo: refactor this to a redux action. the ref is needlessly messy in the new architecture
+      toggleVisibility();
+      const addedBlog = await blogService.createBlog(newBlog);
+      dispatch(setBlogs(blogs.concat(addedBlog)));
+      dispatch(
+        setAlert({ type: 'success', message: 'blog added successfully' })
+      );
+      setTimeout(() => dispatch(setAlert(null)), 3000);
+    } catch (err) {
+      console.log(err);
+      dispatch(
+        setAlert({
+          type: 'error',
+          message: err.response.data.error || err.message,
+        })
+      );
+      setTimeout(() => dispatch(setAlert(null)), 3000);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();

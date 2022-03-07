@@ -46,7 +46,6 @@ const alertSlice = createSlice({
   initialState: null,
   reducers: {
     setAlert(state, action) {
-      console.log('alertReducer called', action);
       return action.payload;
     },
   },
@@ -60,7 +59,6 @@ const usersInfoSlice = createSlice({
   initialState: [],
   reducers: {
     setUsersInfo(state, action) {
-      console.log('setUsersInfo called: ', action);
       return action.payload;
     },
   },

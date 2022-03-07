@@ -2,14 +2,12 @@ import React, { useEffect, useRef } from 'react';
 import Blog from './components/Blog';
 import blogService from './services/blogs';
 import LoginForm from './components/LoginForm';
-import loginService from './services/login';
 import BlogForm from './components/BlogForm';
-import UsersService from './services/users';
 import Notification from './components/Notification';
 import Togglable from './components/Togglable';
 import Users from './components/Users';
 import { useDispatch, useSelector } from 'react-redux';
-import { setBlogs, setUser, setAlert, setUsersInfo } from './reducers';
+import { setBlogs, setUser, setAlert } from './reducers';
 
 const App = () => {
   //---------STATE---------->
@@ -25,52 +23,13 @@ const App = () => {
 
   //---------HOOKS---------->
   useEffect(
+    //TODO: refactor blog list to its own component and take this with it
     () => async () => {
       const blogs = await blogService.getAll();
       dispatch(setBlogs(blogs));
     },
     [user]
   );
-
-  useEffect(() => {
-    const loggedUser = window.sessionStorage.getItem('blogAppUser');
-    if (loggedUser) {
-      const parsedUser = JSON.parse(loggedUser);
-      dispatch(setUser(parsedUser));
-      blogService.setToken(parsedUser.token);
-    }
-  }, []);
-
-  useEffect(
-    () => async () => {
-      const usersInfo = await UsersService.getAll();
-      dispatch(setUsersInfo(usersInfo));
-    },
-    [user]
-  );
-
-  const handleLogin = async (username, password) => {
-    try {
-      const user = await loginService.login({ username, password });
-      dispatch(setUser(user));
-      blogService.setToken(user.token);
-      window.sessionStorage.setItem('blogAppUser', JSON.stringify(user));
-      dispatch(setAlert({ type: 'success', message: 'login successful' }));
-      setTimeout(() => {
-        dispatch(setAlert(null));
-      }, 3000);
-    } catch (err) {
-      dispatch(
-        setAlert({
-          type: 'error',
-          message: err.response.data.error || err.message,
-        })
-      );
-      setTimeout(() => {
-        dispatch(setAlert(null));
-      }, 3000);
-    }
-  };
 
   const handleLogout = () => {
     window.sessionStorage.removeItem('blogAppUser');
@@ -79,24 +38,13 @@ const App = () => {
     dispatch(setUser(null));
   };
 
-  const addBlog = async (title, author, url) => {
-    const newBlog = { title, author, url, username: user.username };
-    try {
-      blogFormRef.current.toggleVisibility();
-      const addedBlog = await blogService.createBlog(newBlog);
-      dispatch(setBlogs(blogs.concat(addedBlog)));
-      dispatch(
-        setAlert({ type: 'success', message: 'blog added successfully' })
-      );
-      setTimeout(() => dispatch(setAlert(null)), 3000);
-    } catch (err) {
-      console.log(err);
-      dispatch(setAlert(err));
-      setTimeout(() => dispatch(setAlert(null)), 3000);
-    }
+  const toggleBlogForm = () => {
+    //todo: refactor this to just use a redux state boolean and a dispatcher from the component
+    blogFormRef.current.toggleVisibility();
   };
 
   const updateBlog = async ({ id, user, likes, author, title, url }) => {
+    //todo: refactor to just be likeBlog and move to the blog component
     const update = {
       id,
       user: user.id,
@@ -114,15 +62,17 @@ const App = () => {
   };
 
   const deleteBlog = async ({ id }) => {
+    //todo: move with updateBlog to Blog component
     blogService.deleteBlog(id);
     dispatch(setBlogs(blogs.filter((blog) => blog.id !== id)));
   };
+
   if (!user) {
     return (
       <div>
         <Notification alert={alert} />
         <h2>log in to application</h2>
-        <LoginForm handleLogin={handleLogin} />
+        <LoginForm />
       </div>
     );
   } else {
@@ -141,7 +91,7 @@ const App = () => {
           />
         ))}
         <Togglable buttonLabel='add blog' ref={blogFormRef}>
-          <BlogForm addBlog={addBlog} />
+          <BlogForm toggleVisibility={toggleBlogForm} />
         </Togglable>
         <Users />
       </div>
