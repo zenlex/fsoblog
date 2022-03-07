@@ -4,6 +4,7 @@ import {
   userReducer,
   alertReducer,
   usersInfoReducer,
+  visibilityReducer,
 } from './reducers';
 
 const initialState = {
@@ -27,6 +28,7 @@ const store = configureStore({
     user: userReducer,
     alert: alertReducer,
     usersInfo: usersInfoReducer,
+    visibilities: visibilityReducer,
   },
 });
 

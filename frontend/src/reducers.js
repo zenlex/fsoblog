@@ -46,7 +46,6 @@ const alertSlice = createSlice({
   initialState: null,
   reducers: {
     setAlert(state, action) {
-      console.log('alertReducer called', action);
       return action.payload;
     },
   },
@@ -60,7 +59,6 @@ const usersInfoSlice = createSlice({
   initialState: [],
   reducers: {
     setUsersInfo(state, action) {
-      console.log('setUsersInfo called: ', action);
       return action.payload;
     },
   },
@@ -68,3 +66,17 @@ const usersInfoSlice = createSlice({
 
 export const usersInfoReducer = usersInfoSlice.reducer;
 export const { setUsersInfo } = usersInfoSlice.actions;
+
+const visibilitySlice = createSlice({
+  name: 'visibilities',
+  initialState: {},
+  reducers: {
+    setVisibility(state, action) {
+      //action.payload contains key/val pair
+      return { ...state, ...action.payload };
+    },
+  },
+});
+
+export const visibilityReducer = visibilitySlice.reducer;
+export const { setVisibility } = visibilitySlice.actions;
