@@ -5,22 +5,26 @@ import BlogForm from './components/BlogForm';
 import Notification from './components/Notification';
 import Users from './components/Users';
 import { useSelector } from 'react-redux';
+import { Link, Route, Routes } from 'react-router-dom';
 
 const App = () => {
   //---------STATE---------->
-  const { alert } = useSelector((state) => state);
+  const { alert, user } = useSelector((state) => state);
   //---------REFS---------->
   //---------HOOKS---------->
   //---------RETURN---------->
 
   return (
     <div>
-      <LoginForm />
       <Notification alert={alert} />
-      <Blogs />
-      {/*TODO: refactor BlogForm and Login form to house their own togglable */}
+      <LoginForm />
+      <Routes>
+        <Route path='/' element={<Blogs />} />
+
+        <Route path='/users' element={<Users />} />
+      </Routes>
       <BlogForm />
-      <Users />
+      <div>{user && <Link to='/users'>User Info</Link>}</div>
     </div>
   );
 };
