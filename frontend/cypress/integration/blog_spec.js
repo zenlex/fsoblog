@@ -33,16 +33,10 @@ describe('Blog app', function () {
   describe('While logged in', function () {
     beforeEach(function () {
       cy.loginBlind('codemonkey', 'foobar');
-<<<<<<< HEAD
       cy.visit('https://localhost:3000/blogs');
     });
     it('should show logout button', function () {
       cy.get('html').should('contain', 'Logout');
-=======
-    });
-    it('should show logout button', function () {
-      cy.get('html').should('not.contain', 'Logout');
->>>>>>> 82d5acb4ab1c0e9895f1af66060199f4087a8c83
     });
 
     it('user can add new blog', function () {
@@ -53,7 +47,6 @@ describe('Blog app', function () {
 
     it('user can like a blog', function () {
       cy.addBlog('likable', 'Sy press', 'likes.com');
-<<<<<<< HEAD
       cy.contains('likable').click();
 
       cy.get('[data-cy=likes]').should('contain', 'Likes: 0');
@@ -61,30 +54,13 @@ describe('Blog app', function () {
       cy.get('[data-cy=like-btn]').click();
 
       cy.get('[data-cy=likes]').should('contain', 'Likes: 1');
-=======
-      cy.contains('likable').parent().parent().as('blogContainer');
-      cy.get('@blogContainer').contains('view').click();
-
-      cy.get('[data-cy=likes]').should('contain', 'Likes: 0');
-
-      cy.get('@blogContainer').get('[data-cy=like-btn]').click();
-
-      cy.get('@blogContainer').should('contain', 'Likes: 1');
->>>>>>> 82d5acb4ab1c0e9895f1af66060199f4087a8c83
     });
 
     it('user can delete a blog', function () {
       cy.addBlog('likable', 'Sy press', 'likes.com');
-<<<<<<< HEAD
       cy.contains('likable').click();
 
       cy.get('[data-cy=delete]').click();
-=======
-      cy.contains('likable').parent().parent().as('blogContainer');
-      cy.get('@blogContainer').contains('view').click();
-
-      cy.get('@blogContainer').get('[data-cy=delete]').click();
->>>>>>> 82d5acb4ab1c0e9895f1af66060199f4087a8c83
 
       cy.get('html').should('not.contain', 'likable');
     });
@@ -103,19 +79,11 @@ describe('Blog app', function () {
       cy.loginBlind('user2', 'foobar');
 
       // open created blog
-<<<<<<< HEAD
       cy.visit('https://localhost:3000/blogs');
       cy.contains('undeletable').click();
 
       // should not have delete button
       cy.get('[data-cy=delete]').should('not.exist');
-=======
-      cy.contains('undeletable').parent().parent().as('blogContainer');
-      cy.get('@blogContainer').contains('view').click();
-
-      // should not have delete button
-      cy.get('@blogContainer').get('[data-cy=delete]').should('not.exist');
->>>>>>> 82d5acb4ab1c0e9895f1af66060199f4087a8c83
     });
 
     // TODO: Optional 5.22* add testing to ensure blogs are sorted correctly by likes
