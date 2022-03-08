@@ -21,7 +21,15 @@ const BlogDetail = () => {
     marginBottom: 5,
   };
   //TODO: refactor this handler or pass in as prop? Maybe the thing to do is move all these service actions to be dispatch calls to the reducer- it's reused from Bloglist
-  const updateBlog = async ({ id, user, likes, author, title, url }) => {
+  const updateBlog = async ({
+    id,
+    user,
+    likes,
+    author,
+    title,
+    url,
+    comments,
+  }) => {
     const update = {
       id,
       user: user.id,
@@ -29,6 +37,7 @@ const BlogDetail = () => {
       author,
       title,
       url,
+      comments,
     };
     const updatedBlog = await blogService.updateBlog(update);
     dispatch(
@@ -36,6 +45,11 @@ const BlogDetail = () => {
         blogs.filter((blog) => blog.id !== updatedBlog.id).concat(updatedBlog)
       )
     );
+  };
+
+  const addComment = async (comment) => {
+    const response = await blogService.addComment(comment, blog.id);
+    return response.data;
   };
 
   const handleLike = () => {
@@ -90,7 +104,7 @@ const BlogDetail = () => {
           </button>
         )}
       </div>
-      <Comments comments={blog.comments} />
+      <Comments blog={blog} addComment={addComment} />
     </div>
   );
 };
