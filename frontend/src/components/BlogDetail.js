@@ -2,6 +2,7 @@ import blogService from '../services/blogs';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { setAlert, setBlogs } from '../reducers';
+import Comments from './Comments';
 
 const BlogDetail = () => {
   const params = useParams();
@@ -89,6 +90,7 @@ const BlogDetail = () => {
           </button>
         )}
       </div>
+      <Comments comments={blog.comments} />
     </div>
   );
 };
