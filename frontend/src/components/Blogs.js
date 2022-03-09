@@ -3,6 +3,7 @@ import blogService from '../services/blogs';
 import { useDispatch, useSelector } from 'react-redux';
 import { setBlogs } from '../reducers';
 import Blog from './Blog';
+import { Typography } from '@mui/material';
 
 const Blogs = () => {
   useEffect(() => {
@@ -23,7 +24,12 @@ const Blogs = () => {
 
   return (
     <div>
-      <h2>blogs</h2>
+      <Typography
+        variant='h4'
+        sx={{ marginTop: 3, marginBottom: 3, textDecoration: 'underline' }}
+      >
+        blogs
+      </Typography>
       {blogs.map((blog) => (
         <Blog key={blog.id} blog={blog} />
       ))}

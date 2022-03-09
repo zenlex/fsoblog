@@ -3,6 +3,8 @@ import loginService from '../services/login';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser, setAlert } from '../reducers';
 import blogService from '../services/blogs';
+import { TextField, Button } from '@mui/material';
+import { Typography } from '@mui/material';
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -56,31 +58,41 @@ const LoginForm = () => {
     setPassword('');
   };
   if (user) {
-    return <button onClick={handleLogout}>Logout</button>;
+    return (
+      <Button variant='outlined' color='error' onClick={handleLogout}>
+        Logout
+      </Button>
+    );
   }
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>log in to application</h2>
-      <div>
-        username
-        <input
+      <Typography variant='h3' component='div'>
+        log in to application
+      </Typography>
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <TextField
+          label='username'
           type='text'
           value={username}
           onChange={({ target }) => setUsername(target.value)}
           id='usernameinp'
+          variant='filled'
+          margin='normal'
         />
-      </div>
-      <div>
-        password
-        <input
+        <TextField
+          label='Password'
           type='password'
           value={password}
           onChange={({ target }) => setPassword(target.value)}
           id='passwordinp'
+          variant='filled'
+          margin='normal'
         />
       </div>
-      <button type='submit'>login</button>
+      <Button type='submit' variant='contained'>
+        login
+      </Button>
     </form>
   );
 };

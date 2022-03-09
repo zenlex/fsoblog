@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { setAlert, setBlogs } from '../reducers';
 import Comments from './Comments';
+import { Box, Typography, Button, Stack } from '@mui/material';
 
 const BlogDetail = () => {
   const params = useParams();
@@ -14,10 +15,11 @@ const BlogDetail = () => {
   }));
   const blog = blogs.filter((blog) => blog.id === params.id)[0];
   const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
+    padding: 10,
+    paddingRight: 20,
     border: 'solid',
     borderWidth: 1,
+    marginTop: 10,
     marginBottom: 5,
   };
   //TODO: refactor this handler or pass in as prop? Maybe the thing to do is move all these service actions to be dispatch calls to the reducer- it's reused from Bloglist
@@ -78,34 +80,45 @@ const BlogDetail = () => {
   if (!blog) return <div>No blog found at that id...</div>;
 
   return (
-    <div style={blogStyle}>
-      <div>
-        <h1>
+    <Box style={blogStyle}>
+      <Stack direction='column' spacing={2}>
+        <Typography variant='h4'>
           <i>{blog.title}</i> by {blog.author}
-        </h1>
-      </div>
-      <div>
-        <div>
+        </Typography>
+        <Typography>
           URL:{' '}
           <a href={blog.url} target='_blank' rel='noreferrer'>
             {blog.url}
           </a>
-        </div>
-        <span data-cy='likes'>
-          Likes: {blog.likes}
-          <button onClick={handleLike} data-cy='like-btn'>
+        </Typography>
+        <Stack direction='row' alignItems='center' spacing={2}>
+          <Typography variant='subtitle1' margin='normal' data-cy='likes'>
+            Likes: {blog.likes}
+          </Typography>
+          <Button
+            variant='outlined'
+            size='small'
+            onClick={handleLike}
+            data-cy='like-btn'
+          >
             like
-          </button>
-        </span>
-        <p>Submitted by User: {blog.user.name}</p>
+          </Button>
+        </Stack>
+        <Typography>Submitted by User: {blog.user.name}</Typography>
         {currUser.id === blog.user.id && (
-          <button data-cy='delete' onClick={handleDelete}>
+          <Button
+            variant='outlined'
+            color='error'
+            data-cy='delete'
+            onClick={handleDelete}
+            sx={{ width: '50%' }}
+          >
             remove
-          </button>
+          </Button>
         )}
-      </div>
-      <Comments blog={blog} addComment={addComment} />
-    </div>
+        <Comments blog={blog} addComment={addComment} />
+      </Stack>
+    </Box>
   );
 };
 

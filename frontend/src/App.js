@@ -8,6 +8,7 @@ import UserDetail from './components/UserDetail';
 import { useSelector } from 'react-redux';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar';
+import { Container } from '@mui/material';
 
 const App = () => {
   //---------STATE---------->
@@ -18,19 +19,23 @@ const App = () => {
 
   return (
     <Router>
-      <Navbar />
       <Notification alert={alert} />
-      {user && <BlogForm />}
-      <Routes>
-        <Route
-          path='/'
-          element={<div>{user ? 'use menu to navigate' : 'please log in'}</div>}
-        />
-        <Route path='/blogs' exact element={<Blogs />} />
-        <Route path='/users' exact element={<Users />} />
-        <Route path='/users/:id' exact element={<UserDetail />} />
-        <Route path='/blogs/:id' exact element={<BlogDetail />} />
-      </Routes>
+      <Container>
+        <Navbar />
+        {user && <BlogForm />}
+        <Routes>
+          <Route
+            path='/'
+            element={
+              <div>{user ? 'use menu to navigate' : 'please log in'}</div>
+            }
+          />
+          <Route path='/blogs' exact element={<Blogs />} />
+          <Route path='/users' exact element={<Users />} />
+          <Route path='/users/:id' exact element={<UserDetail />} />
+          <Route path='/blogs/:id' exact element={<BlogDetail />} />
+        </Routes>
+      </Container>
     </Router>
   );
 };
