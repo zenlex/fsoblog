@@ -1,3 +1,4 @@
+import { Stack, TextField, Typography, Button } from '@mui/material';
 import { useState } from 'react';
 
 const Comments = ({ blog, addComment }) => {
@@ -13,14 +14,20 @@ const Comments = ({ blog, addComment }) => {
 
   return (
     <div>
-      <h2>Comments</h2>
+      <Typography variant='h5'>Comments</Typography>
       <form onSubmit={handleSubmit}>
-        comment:{' '}
-        <input
-          onChange={({ target }) => setComment(target.value)}
-          value={comment}
-        />
-        <button>add comment</button>
+        <Stack direction='row' spacing={1}>
+          <TextField
+            label='comment: '
+            variant='outlined'
+            size='small'
+            onChange={({ target }) => setComment(target.value)}
+            value={comment}
+          />
+          <Button color='success' variant='outlined'>
+            add comment
+          </Button>
+        </Stack>
       </form>
 
       <ul>

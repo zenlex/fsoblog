@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import blogService from '../services/blogs';
 import { setBlogs, setAlert, setVisibility } from '../reducers';
+import { Button, Stack, TextField } from '@mui/material';
 
 const BlogForm = () => {
   const dispatch = useDispatch();
@@ -54,14 +55,25 @@ const BlogForm = () => {
   };
 
   if (!visible) {
-    return <button onClick={(e) => showForm(e)}>add blog</button>;
+    return (
+      <Button
+        variant='contained'
+        color='success'
+        sx={{ mt: 2, ml: 2 }}
+        onClick={(e) => showForm(e)}
+      >
+        add blog
+      </Button>
+    );
   }
   if (visible) {
     return (
       <form onSubmit={handleSubmit}>
         <div>
-          title:
-          <input
+          <TextField
+            label='title'
+            variant='filled'
+            margin='normal'
             type='text'
             value={title}
             name='title'
@@ -71,8 +83,10 @@ const BlogForm = () => {
           />
         </div>
         <div>
-          author:
-          <input
+          <TextField
+            label='author'
+            variant='filled'
+            margin='normal'
             type='text'
             value={author}
             name='author'
@@ -82,8 +96,10 @@ const BlogForm = () => {
           />
         </div>
         <div>
-          url:
-          <input
+          <TextField
+            label='url'
+            variant='filled'
+            margin='normal'
             type='text'
             value={url}
             name='url'
@@ -92,15 +108,24 @@ const BlogForm = () => {
             data-cy='url'
           />
         </div>
-        <button type='submit' name='create'>
-          create
-        </button>
-        <button
-          type='button'
-          onClick={() => dispatch(setVisibility({ BlogForm: false }))}
-        >
-          cancel
-        </button>
+        <Stack direction='row' spacing={1} justifyContent>
+          <Button
+            type='submit'
+            name='create'
+            variant='contained'
+            color='success'
+          >
+            create
+          </Button>
+          <Button
+            type='button'
+            onClick={() => dispatch(setVisibility({ BlogForm: false }))}
+            variant='contained'
+            color='error'
+          >
+            cancel
+          </Button>
+        </Stack>
       </form>
     );
   }
