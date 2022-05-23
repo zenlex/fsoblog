@@ -81,7 +81,7 @@ const LoginForm = () => {
           margin='normal'
         />
         <TextField
-          label='Password'
+          label='password'
           type='password'
           value={password}
           onChange={({ target }) => setPassword(target.value)}

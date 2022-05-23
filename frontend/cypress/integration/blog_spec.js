@@ -26,7 +26,7 @@ describe('Blog app', function () {
     it('fails with incorrect credentials', function () {
       cy.loginForm('wrong', 'morewrong');
       cy.get('html').should('not.contain', 'login successful');
-      cy.contains('invalid').should('have.css', 'color', 'rgb(255, 0, 0)');
+      cy.contains('invalid').should('have.css', 'color', 'rgb(95, 33, 32)');
     });
   });
 
